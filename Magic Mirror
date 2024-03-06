@@ -1,0 +1,209 @@
+/* MagicMirror² Config Sample
+ *
+ * By Michael Teeuw https://michaelteeuw.nl
+ * MIT Licensed.
+ *
+ * For more information on how you can configure this file
+ * see https://docs.magicmirror.builders/configuration/introduction.html
+ * and https://docs.magicmirror.builders/modules/configuration.html
+ *
+ * You can use environment variables using a `config.js.template` file instead of `config.js`
+ * which will be converted to `config.js` while starting. For more information
+ * see https://docs.magicmirror.builders/configuration/introduction.html#enviromnent-variables
+ */
+let config = {
+	address: "localhost",	// Address to listen on, can be:
+							// - "localhost", "127.0.0.1", "::1" to listen on loopback interface
+							// - another specific IPv4/6 to listen on a specific interface
+							// - "0.0.0.0", "::" to listen on any interface
+							// Default, when address config is left out or empty, is "localhost"
+	port: 8080,
+	basePath: "/",	// The URL path where MagicMirror² is hosted. If you are using a Reverse proxy
+									// you must set the sub path here. basePath must end with a /
+	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],	// Set [] to allow all IP addresses
+									// or add a specific IPv4 of 192.168.1.5 :
+									// ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.1.5"],
+									// or IPv4 range of 192.168.3.0 --> 192.168.3.15 use CIDR format :
+									// ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.3.0/28"],
+
+	useHttps: false,			// Support HTTPS or not, default "false" will use HTTP
+	httpsPrivateKey: "",	// HTTPS private key path, only require when useHttps is true
+	httpsCertificate: "",	// HTTPS Certificate path, only require when useHttps is true
+
+	language: "en",
+	locale: "en-US",
+	logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
+	timeFormat: 12,
+	units: "imperial",
+
+//npm run config:check
+//latitude:   39.98518,
+//longitude: -83,10112
+
+	modules: [
+{
+    module: 'MMM-IPT',
+    position: 'bottom_left', // This can be any of the regions, best results in center regions
+    config: {
+        updateInterval: 720 * 60 * 1000, // every 12 hours
+		    latitude:   39.98518,
+			longitude: -83.10112,
+		    timeZoneString: "America/New_York", // https://www.php.net/manual/en/timezones.php
+		    method: 2, //check config options.
+		    school: 1, //"school" - Optional. 0 for Shafii, 1 for Hanfi. If you leave this empty, it defaults to Shafii.
+		    adhanSrc: '', // If you want to play azan add the config to this link 'http://www.islamcan.com/audio/adhan/azan1.mp3'.
+		    css_class: 'bright medium',
+    }
+},
+{
+		module: 'MMM-Cursor',
+		config: {}
+	},
+		{
+			module: "updatenotification",
+			position: "top_bar"
+		},
+
+		{
+			module: "clock",
+			position: "top_left"
+		},
+		{
+		module: "MMM-OpenmapWeather",
+		position: "top_right",	// This can be any of the regions. Best results in left or right regions.
+	//	header: "Current Weather", //Location is the default value if header is empty or not defined.
+		config: {
+			// See 'Configuration options' for more information.
+			location: "Columbus,USA",
+			locationID: "4509177", //Location ID from http://openweathermap.org/help/city_list.txt
+			appid: "9ad8cd9928555c1ea47bf6f0f4e658a3",  //openweathermap.org API key
+      		colorIcon: false,
+      		units: "imperial",
+      		roundTemp:  true,
+      		showWindDirection: false,
+      		appendLocationNameToHeader:  false,
+      		showWindDirection: false
+      		
+      			
+		}
+	},
+	{
+	module: "calendar",
+header: "Upcoming",
+position: "top_left",
+config: {
+	calendars: [ { showEnd: true,
+					symbol: "calendar-check", 
+					url: "webcal://p65-caldav.icloud.com/published/2/ODIxODkwNTg3NzgyMTg5MBNZ_oSR_jQaq2F84iN-bnTJzDVb-wzZ1vZRrK3aYf1GS7Xv0ABZt7BsGgRYEPp9APB95_n3ts_YgZN0jc0_Q1k", name: "Mo ", }],
+	//{ showEnd: true, symbol: "calendar-check", url: "https://calendar.google.com/calendar/ical/xislamcalx%40gmail.com/public/basic.ics", name: "Islamic", } ],
+colored: true,
+timeFormat: "absolute",
+maximumNumberOfDays: 360,
+maximumEntries: 10000,
+nextDaysRelative: true,
+limitDays: 31,
+fade: true,
+fetchInterval:30000,
+fadePoint: 0.15,
+getRelative: 0,
+coloredText: true,
+urgency: 0,
+maxTitleLength: 25,
+wrapEvents: false,
+showEnd: false,
+displayRepeatingCountTitle: true,
+broadcastPastEvents: true}},
+{
+    module: "MMM-MonthlyCalendar",
+    position: "bottom_bar",
+config: { // See "Configuration options" for more information.
+	//calendars: [ { showEnd: true, symbol: "calendar-check", url: "webcal://p65-caldav.icloud.com/published/2/ODIxODkwNTg3NzgyMTg5MBNZ_oSR_jQaq2F84iN-bnTJzDVb-wzZ1vZRrK3aYf1GS7Xv0ABZt7BsGgRYEPp9APB95_n3ts_YgZN0jc0_Q1k", 
+		//	   name: "Mo", } ],
+mode: "nextFourWeeks",
+firstDayOfWeek: "monday",
+showEnd: true,
+dateEndFormat: "hh:mm a",
+maxTitleLength: 15,
+wrapTitles: true,
+maximumEntries: 1000}
+},
+	
+	  //{
+    //module: "MMM-MonthlyCalendar",
+    //position: "bottom_right",
+    //config: { broadcastPastEvents: true,
+		 //maximumEntries: 100,
+		  //maximumNumberOfDays: 60,
+		   //calendars: [ { showEnd: true, symbol: "calendar-check", url: "webcal://p65-caldav.icloud.com/published/2/ODIxODkwNTg3NzgyMTg5MBNZ_oSR_jQaq2F84iN-bnTJzDVb-wzZ1vZRrK3aYf1GS7Xv0ABZt7BsGgRYEPp9APB95_n3ts_YgZN0jc0_Q1k", 
+			 //  name: "Mo", } ] } 
+			 
+	
+    //},
+    
+	{
+			module: "weather",
+			position: "top_right",
+			config: {
+				weatherProvider: "openweathermap",
+				type: "forecast",
+				appendLocationNameToHeader: false,
+				units:"imperial",
+				showUVIndex: true,
+				roundTemp: true,
+				ignoreToday: true,
+				showSun: false,
+				maxNumberOfDays:3,
+				onlyTemp: true,
+				tempunits: "imperial",
+				location: "Ohio",
+				locationID: "4509177", //ID from http://bulk.openweathermap.org/sample/city.list.json.gz; unzip the gz file and find your city
+				apiKey: "9ad8cd9928555c1ea47bf6f0f4e658a3"
+			}
+		},
+{
+    module: 'MMM-Remote-Control',
+    // uncomment the following line to show the URL of the remote control on the mirror
+     position: 'bottom_left',
+    // you can hide this module afterwards from the remote control itself
+    config: {
+        customCommand: {},  // Optional, See "Using Custom Commands" below
+        showModuleApiMenu: true, // Optional, Enable the Module Controls menu
+        secureEndpoints: true, // Optional, See API/README.md
+        // uncomment any of the lines below if you're gonna use it
+        // customMenu: "custom_menu.json", // Optional, See "Custom Menu Items" below
+        // apiKey: "", // Optional, See API/README.md for details
+        // classes: {} // Optional, See "Custom Classes" below
+    }
+},
+//{ RainRadar
+    //disabled: false,
+    //module: 'MMM-RAIN-RADAR',
+    //position: 'bottom_right',
+    //config: {
+        //useHeader: true, // true if you want a header
+        //lat: "39.98518", // Latitude
+        //lon: "-83.10112", // Longitude
+        //area: 'OH', // US State
+        //zoomLevel: 3,
+        //mapType: 2, //0-Road Map 1-Satellite 2-Dark Map 3-OpenStreetMaps 4-Light Map
+        //color: 3, //0-Original 1-Universal Blue 2-TITAN 3-The Weather Channel 5-NEXRAD Level-III 6-RAINBOW @ SELEX-SI
+        //snow: 1,
+        //smoothing: 1,
+        //opacity: 88,
+        //fastAnimation: 0,
+        //coverage: 0,
+        //darkTheme: 1,
+        //UTCtime: 0,
+        //legend: 1,
+        //legendMin: 0, //set legend to 1 if you want legendMin to show
+        //animate: 1,
+        //updateOnWarning: 1, // 1: after updateInterval, weather warnings for your US states will be used to determine if module should be hidden. 0 module is perpertually displayed
+        //updateInterval: 60 * 60 * 1000, // number of milliseconds. change 5 to 60 and it will update each 10 minutes
+    //}
+//},
+		
+	]
+};
+
+/*************** DO NOT EDIT THE LINE BELOW ***************/
+if (typeof module !== "undefined") { module.exports = config; }
